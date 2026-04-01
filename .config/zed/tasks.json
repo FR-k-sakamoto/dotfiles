@@ -1,0 +1,20 @@
+[
+    {
+        "label": "copy-filepath-for-ai",
+        "command": "echo -n \"@$ZED_RELATIVE_FILE\" | /mnt/c/Windows/System32/clip.exe",
+        "use_new_terminal": false,
+        "allow_concurrent_runs": false,
+        "reveal": "never",
+        "hide": "always",
+        "shell": "system"
+    },
+    {
+        "label": "copy-filepath#range-for-ai",
+        "command": "printenv ZED_SELECTED_TEXT | awk -v row=$ZED_ROW -v file=$ZED_RELATIVE_FILE 'END{s=row-NR+1; printf \"@%s#%d-%d\", file, s, row}' | /mnt/c/Windows/System32/clip.exe",
+        "use_new_terminal": false,
+        "allow_concurrent_runs": false,
+        "reveal": "never",
+        "hide": "always",
+        "shell": "system"
+    }
+]
