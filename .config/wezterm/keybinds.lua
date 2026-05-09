@@ -35,7 +35,7 @@ return {
     { key = 'l', mods = 'LEADER', action = act.ActivatePaneDirection("Right") },
     -- Pane拡大・縮小
     { key = 'z', mods = 'LEADER', action = act.TogglePaneZoomState },
-    -- Paneのリサイズ
+    -- Paneのりサイズ
     { key = 'p', mods = 'LEADER', action = act.ActivateKeyTable({ 
         name = 'resize_pane', one_shot = false 
     }) },
@@ -43,35 +43,13 @@ return {
     -- =============== コピぺ操作 ===============
     -- コピーモード起動
     { key = '[', mods = 'LEADER', action = act.ActivateCopyMode },
-    -- Ctrl+Shift+C/V
-    { key = 'C', mods = 'CTRL|SHIFT', action = act.CopyTo 'Clipboard' },
-    { key = 'V', mods = 'CTRL|SHIFT', action = act.PasteFrom 'Clipboard' },
-    -- Windows Key + C/V
+    -- コピペ
     { key = 'c', mods = 'SUPER', action = act.CopyTo 'Clipboard' },
     { key = 'v', mods = 'SUPER', action = act.PasteFrom 'Clipboard' },
-    -- Insert系 (Windows標準)
-    { key = 'Insert', mods = 'CTRL', action = act.CopyTo 'Clipboard' },
-    { key = 'Insert', mods = 'SHIFT', action = act.PasteFrom 'Clipboard' },
-
-    -- =============== ワークスペース操作 ===============
-    -- ワークスペース一覧 (Fuzzy Picker)
-    { key = 's', mods = 'LEADER', action = act.ShowLauncherArgs{ flags = 'FUZZY|WORKSPACES' } },
-    -- 新規ワークスペース作成
-    { key = 'n', mods = 'LEADER', action = act.PromptInputLine({
-        description = wezterm.format({
-            { Attribute = { Intensity = 'Bold' } },
-            { Text = 'Enter workspace name: ' },
-        }),
-        action = wezterm.action_callback(function(window, pane, line)
-            if line and #line > 0 then
-                window:perform_action(act.SwitchToWorkspace({ name = line }), pane)
-            end
-        end),
-    }) },
 
     -- =============== その他 ===============
     -- フルスクリーン
-    { key = 'Enter', mods = 'ALT|SHIFT', action = act.ToggleFullScreen },
+    { key = 'Enter', mods = 'ALT', action = act.ToggleFullScreen },
     -- アプリケーション終了
     { key = 'q', mods = 'SUPER', action = act.QuitApplication },
     -- コマンドパレット表示

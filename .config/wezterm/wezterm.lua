@@ -3,37 +3,15 @@ local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 config.automatically_reload_config = true
 
--- OS判定
-local function is_windows()
-    return wezterm.target_triple:find("windows") ~= nil
-end
-
-if is_windows() then
-    config.wsl_domains = {
-        {
-            name = 'WSL:Ubuntu',
-            distribution = 'Ubuntu',
-            default_cwd = '~',
-        },
-    }
-    config.default_domain = 'WSL:Ubuntu'
-end
-
-config.font = wezterm.font 'JetBrains Mono'
+config.font = wezterm.font 'FiraCode Nerd Font'
 config.color_scheme = 'Afterglow (Gogh)'
 config.font_size = 12
 config.use_ime = true
 config.window_background_opacity = 0.75
 config.macos_window_background_blur = 20
-config.window_decorations = 'RESIZE'
-config.window_padding = {
-    left = 8,
-    right = 8,
-    top = 8,
-    bottom = 0,
-}
+config.window_decorations = 'RESIZE' 
 
-config.hide_tab_bar_if_only_one_tab = false
+config.hide_tab_bar_if_only_one_tab = true
 config.window_frame = {
     inactive_titlebar_bg = 'none',
     active_titlebar_bg = 'none',
@@ -91,59 +69,6 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
         { Text = RIGHT_DIVIDER },
         gap[1], gap[2],
     }
-end)
-
---------------------------------------
--- workspace indicator (タブバー左側)
---------------------------------------
-wezterm.on('update-status', function(window, pane)
-    local workspaces = wezterm.mux.get_workspace_names()
-    local has_multiple_workspaces = #workspaces >= 2
-
-    -- タブバー表示制御: ワークスペースが1つでタブも1つなら非表示
-    local tab_count = #window:mux_window():tabs()
-    local overrides = window:get_config_overrides() or {}
-    local should_hide = (not has_multiple_workspaces) and (tab_count <= 1)
-    if overrides.hide_tab_bar_if_only_one_tab ~= should_hide then
-        overrides.hide_tab_bar_if_only_one_tab = should_hide
-        window:set_config_overrides(overrides)
-    end
-
-    -- ワークスペースが2つ以上ある場合のみ左ステータスに表示
-    if not has_multiple_workspaces then
-        window:set_left_status('')
-        return
-    end
-
-    local active = window:active_workspace()
-    local ws_index = 0
-    for i, name in ipairs(workspaces) do
-        if name == active then ws_index = i break end
-    end
-
-    local LEFT_DIVIDER = utf8.char(0xe0b6)
-    local RIGHT_DIVIDER = utf8.char(0xe0b4)
-    local ws_bg = '#6a4c93'
-    local ws_fg = '#e0e0e0'
-    local count_bg = '#4a3473'
-    local count_fg = '#b0b0b0'
-
-    window:set_left_status(wezterm.format({
-        { Text = '  ' },
-        { Foreground = { Color = ws_bg } },
-        { Text = LEFT_DIVIDER },
-        { Background = { Color = ws_bg } },
-        { Foreground = { Color = ws_fg } },
-        { Attribute = { Intensity = 'Bold' } },
-        { Text = '  ' .. active .. ' ' },
-        { Background = { Color = count_bg } },
-        { Foreground = { Color = count_fg } },
-        { Text = ' ' .. ws_index .. '/' .. #workspaces .. ' ' },
-        { Background = { Color = 'none' } },
-        { Foreground = { Color = count_bg } },
-        { Text = RIGHT_DIVIDER },
-        { Text = '  ' },
-    }))
 end)
 
 --------------------------------------
