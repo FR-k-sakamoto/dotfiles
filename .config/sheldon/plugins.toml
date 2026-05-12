@@ -15,5 +15,8 @@ shell = "zsh"
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 
+[plugins.zsh-you-should-use]
+github = "MichaelAquilina/zsh-you-should-use"
+
 [plugins.zsh-syntax-highlighting]
 github = "zsh-users/zsh-syntax-highlighting"

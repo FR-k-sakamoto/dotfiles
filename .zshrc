@@ -8,10 +8,39 @@ alias vi='nvim'
 alias vim='nvim'
 alias view='nvim -R'
 
+# docker
+alias dps='docker ps'
+alias dpsa='docker ps -a'
+alias di='docker images'
+alias dex='docker exec -it'
+alias dlo='docker logs'
+alias dlof='docker logs -f'
+alias dst='docker stats'
+alias dstop='docker stop'
+alias dstart='docker start'
+alias drm='docker rm'
+alias drmi='docker rmi'
+alias dprune='docker system prune'
+
+# docker compose (`dc` は Unix の電卓コマンドと衝突するので `dco` を採用)
+alias dco='docker compose'
+alias dcup='docker compose up'
+alias dcupd='docker compose up -d'
+alias dcupb='docker compose up --build'
+alias dcdn='docker compose down'
+alias dcb='docker compose build'
+alias dcps='docker compose ps'
+alias dcl='docker compose logs'
+alias dclf='docker compose logs -f'
+alias dcr='docker compose run --rm'
+alias dcex='docker compose exec'
+alias dcrestart='docker compose restart'
+alias dcstop='docker compose stop'
+alias dcpull='docker compose pull'
+
 # zsh オプション
 setopt auto_cd
 setopt auto_pushd
-setopt correct
 setopt hist_ignore_all_dups
 setopt hist_save_no_dups
 setopt inc_append_history
@@ -42,3 +71,5 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 alias obsidian='obsidian.com'
+
+eval "$(fnm env --use-on-cd)"
