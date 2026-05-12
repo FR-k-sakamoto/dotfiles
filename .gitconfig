@@ -1,0 +1,10 @@
+[user]
+	name = FR-k-sakamoto
+	email = k.sakamoto@funrepeat.com
+
+[alias]
+	co = checkout
+	sts = stash save
+	stls = stash list
+	s = status
+	b = branch
