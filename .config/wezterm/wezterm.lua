@@ -11,7 +11,9 @@ config.window_background_opacity = 0.75
 config.macos_window_background_blur = 20
 config.window_decorations = 'RESIZE' 
 
-config.hide_tab_bar_if_only_one_tab = true
+config.hide_tab_bar_if_only_one_tab = false
+config.tab_bar_at_bottom = true
+config.use_fancy_tab_bar = false
 config.window_frame = {
     inactive_titlebar_bg = 'none',
     active_titlebar_bg = 'none',
@@ -23,52 +25,63 @@ config.show_new_tab_button_in_tab_bar = false
 config.show_close_tab_button_in_tabs = false
 config.colors = {
     tab_bar = {
+        background = 'rgba(0, 0, 0, 0)',
         inactive_tab_edge = 'none',
     },
 }
 -- タブに色をつける
 wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
-    local title = ' ' .. wezterm.truncate_right(tab.active_pane.title, max_width - 2) .. ' '
+    local raw_title = (tab.tab_title and #tab.tab_title > 0) and tab.tab_title or tab.active_pane.title
+    local title = ' ' .. wezterm.truncate_right(raw_title, max_width - 2) .. ' '
     
-    local active_bg = '#d4843e'
-    local active_fg = '#151515'
+    local active_bg = '#a8e6cf'
+    local active_fg = '#1a3d2a'
     local inactive_bg = '#2c2c2c'
     local inactive_fg = '#888888'
     
-    local LEFT_DIVIDER = utf8.char(0xe0b6) -- 
-    local RIGHT_DIVIDER = utf8.char(0xe0b4) -- 
+    local LEFT_DIVIDER = utf8.char(0xe0ba)  --
+    local RIGHT_DIVIDER = utf8.char(0xe0bc) --
 
-    -- タブの「外側」の余白の定義
-    local gap = { { Background = { Color = 'none' } }, { Text = ' ' } }
+    local bg = tab.is_active and active_bg or inactive_bg
+    local fg = tab.is_active and active_fg or inactive_fg
+    local intensity = tab.is_active and 'Bold' or 'Normal'
 
-    if tab.is_active then
-        return {
-            gap[1], gap[2], -- 左に隙間
-            { Foreground = { Color = active_bg } },
-            { Text = LEFT_DIVIDER },
-            { Background = { Color = active_bg } },
-            { Foreground = { Color = active_fg } },
-            { Attribute = { Intensity = 'Bold' } },
-            { Text = title },
-            { Background = { Color = 'none' } }, 
-            { Foreground = { Color = active_bg } },
-            { Text = RIGHT_DIVIDER },
-            gap[1], gap[2], -- 右に隙間
-        }
-    end
-    
     return {
-        gap[1], gap[2],
-        { Foreground = { Color = inactive_bg } },
+        { Background = { Color = 'rgba(0, 0, 0, 0)' } },
+        { Foreground = { Color = bg } },
         { Text = LEFT_DIVIDER },
-        { Background = { Color = inactive_bg } },
-        { Foreground = { Color = inactive_fg } },
+        { Background = { Color = bg } },
+        { Foreground = { Color = fg } },
+        { Attribute = { Intensity = intensity } },
         { Text = title },
-        { Background = { Color = 'none' } },
-        { Foreground = { Color = inactive_bg } },
-        { Text = RIGHT_DIVIDER },
-        gap[1], gap[2],
+        { Attribute = { Intensity = 'Normal' } },
+        { Background = { Color = 'rgba(0, 0, 0, 0)' } },
+        { Foreground = { Color = bg } },
+        { Text = RIGHT_DIVIDER .. ' ' },
     }
+end)
+
+-- 左下にワークスペース名を常時表示
+wezterm.on('update-status', function(window, pane)
+    local workspace = window:active_workspace()
+    local bg = '#ffb6c1'
+    local fg = '#3d1f2a'
+    local LEFT_DIVIDER = utf8.char(0xe0ba)  --
+    local RIGHT_DIVIDER = utf8.char(0xe0bc) --
+
+    window:set_left_status(wezterm.format({
+        { Background = { Color = 'none' } },
+        { Text = ' ' },
+        { Foreground = { Color = bg } },
+        { Text = LEFT_DIVIDER },
+        { Background = { Color = bg } },
+        { Foreground = { Color = fg } },
+        { Attribute = { Intensity = 'Bold' } },
+        { Text = ' ' .. workspace .. ' ' },
+        { Background = { Color = 'none' } },
+        { Foreground = { Color = bg } },
+        { Text = RIGHT_DIVIDER },
+    }))
 end)
 
 --------------------------------------

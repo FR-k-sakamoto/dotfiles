@@ -22,6 +22,15 @@ return {
     -- タブ新規作成
     { key = 't', mods = 'SUPER', action = act.SpawnTab 'CurrentPaneDomain' },
     { key = 't', mods = 'CTRL', action = act.SpawnTab 'CurrentPaneDomain' },
+    -- タブ名リネーム
+    { key = 'r', mods = 'LEADER', action = act.PromptInputLine{
+        description = 'New tab title:',
+        action = wezterm.action_callback(function(window, pane, line)
+            if line then
+                window:active_tab():set_title(line)
+            end
+        end),
+    }},
 
 
     -- =============== Pane操作 ===============
@@ -46,6 +55,19 @@ return {
     -- コピペ
     { key = 'c', mods = 'SUPER', action = act.CopyTo 'Clipboard' },
     { key = 'v', mods = 'SUPER', action = act.PasteFrom 'Clipboard' },
+
+    -- =============== Workspace操作 ===============
+    -- 新規ワークスペース作成 (名前を入力)
+    { key = 'w', mods = 'LEADER', action = act.PromptInputLine{
+        description = 'New workspace name:',
+        action = wezterm.action_callback(function(window, pane, line)
+            if line and line ~= '' then
+                window:perform_action(act.SwitchToWorkspace{ name = line }, pane)
+            end
+        end),
+    }},
+    -- 次のワークスペースへ循環移動
+    { key = 'n', mods = 'LEADER', action = act.SwitchWorkspaceRelative(1) },
 
     -- =============== その他 ===============
     -- フルスクリーン
