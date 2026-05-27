@@ -8,6 +8,9 @@ alias vi='nvim'
 alias vim='nvim'
 alias view='nvim -R'
 
+export EDITOR=nvim
+export VISUAL=nvim
+
 # docker
 alias dps='docker ps'
 alias dpsa='docker ps -a'
@@ -68,8 +71,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
-alias obsidian='obsidian.com'
 
 eval "$(fnm env --use-on-cd)"

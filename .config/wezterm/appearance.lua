@@ -5,7 +5,7 @@ local M = {}
 function M.apply(config)
   -- フォント / カラースキーム
   config.font = wezterm.font('FiraCode Nerd Font')
-  config.font_size = 12
+  config.font_size = 15
   config.color_scheme = 'Afterglow (Gogh)'
   config.use_ime = true
 

@@ -70,8 +70,6 @@ return {
     { key = 'n', mods = 'LEADER', action = act.SwitchWorkspaceRelative(1) },
 
     -- =============== その他 ===============
-    -- フルスクリーン
-    { key = 'Enter', mods = 'ALT', action = act.ToggleFullScreen },
     -- アプリケーション終了
     { key = 'q', mods = 'SUPER', action = act.QuitApplication },
     -- コマンドパレット表示
