@@ -1,12 +1,14 @@
 {
   "includeCoAuthoredBy": false,
+  "model": "opus[1m]",
   "statusLine": {
     "type": "command",
     "command": "/Users/k_sakamoto/project/dotfiles/.claude/statusline.sh",
     "padding": 1
   },
   "enabledPlugins": {
-    "obsidian@obsidian-skills": true
+    "obsidian@obsidian-skills": true,
+    "warp@claude-code-warp": true
   },
   "extraKnownMarketplaces": {
     "obsidian-skills": {
@@ -14,9 +16,16 @@
         "source": "github",
         "repo": "kepano/obsidian-skills"
       }
+    },
+    "claude-code-warp": {
+      "source": {
+        "source": "github",
+        "repo": "warpdotdev/claude-code-warp"
+      }
     }
   },
-  "effortLevel": "xhigh",
-  "theme": "dark",
-  "skipDangerousModePermissionPrompt": true
+  "effortLevel": "high",
+  "tui": "fullscreen",
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark"
 }
